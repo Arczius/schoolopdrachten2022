@@ -2,6 +2,9 @@
 
 const app = document.querySelector("#app");
 
+var fouteAntwoorden;
+var goedeAntwoorden;
+
 const header = `
 <div class="header">
     <h1>Pokemon Quiz</h1>
@@ -11,6 +14,7 @@ const header = `
 
 </div>
 `;
+
 const home = `
 ${header}
 <div class="homeContainer">
@@ -62,4 +66,12 @@ function randomPoke(){
     pokemonAmount = pokeAmount;
     let minAmount = document.querySelector("input#gameMinutes").value;
     minutes = minAmount;
+
 }
+
+function generatePokemonName(){
+    let number = Math.floor(Math.random() * pokemonArray.length);
+    return pokemonArray[number];
+}
+
+console.log(generatePokemonName())
