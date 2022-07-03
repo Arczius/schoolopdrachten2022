@@ -1,9 +1,9 @@
 <?php
 
 $serverName = "127.0.0.1";
-$databaseName = "character";
+$databaseName = "challenge";
 $username = "root";
-$password = "mysql";
+$password = "";
 
 try {
     $db = new PDO("mysql:host=$serverName;dbname=$databaseName", $username, $password);
