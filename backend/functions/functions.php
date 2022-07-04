@@ -46,7 +46,7 @@
 
         foreach($item as $loc_item){
             foreach($list_items as $list_item){
-                if($list_item['name' === $loc_item['Name']]){
+                if($list_item['category'] === $loc_item['Name']){
                     $exists = true;
                 }
             }
@@ -62,4 +62,26 @@
         else{
             redirectPage("./index.php?errorcategory");
         }
+    }
+
+
+    function newCategory($name){
+        $query = "INSERT INTO categories (Name) VALUES('$name')";
+        $conn = $GLOBALS['db']->prepare($query);
+        $conn->execute();
+
+        redirectPage("./index.php");
+    }
+
+
+    function newItem($content, $catId){
+        $query = "SELECT * FROM categories WHERE id=$catId LIMIT 1";
+        $category = $GLOBALS['db']->query($query);
+        foreach($category as $cat){
+            $c_name = $cat['Name'];
+            $query = "INSERT INTO lists (category,nameOrContent) VALUES ('$c_name', '$content')";
+            $conn = $GLOBALS['db']->prepare($query);
+            $conn->execute();
+        }
+        redirectPage("./index.php");
     }

@@ -33,8 +33,8 @@
                 
                 <ul>
                     
-                    <?php 
-                    foreach($lists as $item){
+                    <?php
+                    foreach ($lists as $item) {
                         if($item['category'] === $category['Name']){
                             ?>
                                 <li>
@@ -54,11 +54,18 @@
                     ?>
 
                 </ul>
+
+                <div>
+                    <a href="./new.php?type=item&catId=<?php echo $category['id']; ?>">nieuw item</a>
+                </div>
             </div>
 
         <?php
             }
         ?>
+        <div>
+            <a href="./new.php?type=category">nieuwe category</a>
+        </div>
      
     </main>
     <?php
