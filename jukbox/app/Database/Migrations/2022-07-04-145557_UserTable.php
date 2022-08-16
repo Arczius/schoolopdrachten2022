@@ -19,12 +19,12 @@ class UsersTable extends Migration{
 
             'username' => [
                 'type'  => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => '32',
             ],
 
             'password' => [
                 'type' => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => '32',
             ]
 
         ]);

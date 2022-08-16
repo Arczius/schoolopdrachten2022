@@ -18,7 +18,7 @@ class Genres extends Migration
 
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => '32',
             ]
 
         ]);

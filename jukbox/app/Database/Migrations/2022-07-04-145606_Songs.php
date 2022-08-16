@@ -16,15 +16,18 @@ class Songs extends Migration
                 'unsigned'          => true,
                 'auto_increment'    => true,
             ],
-
             'songName' => [
                 'type' => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => '64',
+            ],
+            'songLength' => [
+                'type' => 'VARCHAR',
+                'constraint' => 5
             ],
             'artistName' => [
                 'type' => 'VARCHAR',
-                'constraint' => '100',
-            ]
+                'constraint' => '64',
+            ],
 
         ]);
 

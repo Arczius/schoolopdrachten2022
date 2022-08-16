@@ -19,7 +19,7 @@ class Playlist extends Migration
 
             'playlist_title' => [
                 'type' => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => '96',
             ]
         ]);
 

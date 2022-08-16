@@ -24,7 +24,7 @@ class PlaylistUsers extends Migration
             'usr_id' => [
                 'type' => 'INT',
                 'constraint' => 5,
-            ]
+            ],
         ]);
 
         $this->forge->addKey('id', true);
