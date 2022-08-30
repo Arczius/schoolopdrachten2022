@@ -46,7 +46,6 @@ function showAllPokemon(){
 }
 
 var pokemonAmount = 0;
-var minutes = 0;
 
 function startGame(){
     app.innerHTML = header;
@@ -55,8 +54,6 @@ function startGame(){
     <div class="game">
         pokemon: <input type="number" id="pokeAmount" value="${pokemonAmount}"></input>
         <br>
-        minutes: <input type="number" id="gameMinutes" value=${minutes}></input>
-        <br>
         <button onclick="randomPoke();">Start</button>
     </div>`;
 }
@@ -64,10 +61,12 @@ function startGame(){
 function randomPoke(){
     let pokeAmount = document.querySelector("input#pokeAmount").value;
     pokemonAmount = pokeAmount;
-    let minAmount = document.querySelector("input#gameMinutes").value;
-    minutes = minAmount;
-
-    game(pokeAmount,minAmount);
+    if(pokemonAmount != 0){        
+        game();
+    }
+    else{
+        alert("je kan geen 0 pokemon raden");
+    }
 }
 
 function generatePokemonName(){
@@ -94,6 +93,7 @@ function checkValue(pokemonName){
 }
 
 function game(){
+    console.log(pokemonAmount);
 
     if(curPokemonAmount === undefined){
         curPokemonAmount = 0;
@@ -101,6 +101,9 @@ function game(){
         goedeAntwoorden = 0;
     }
     
+    if(pokemonAmount !== 0){
+
+    }
     if(curPokemonAmount < pokemonAmount){
         app.innerHTML = header;
         curPokemon = generatePokemonName();
@@ -157,4 +160,6 @@ function game(){
         fouteAntwoorden = 0;
         curPokemonAmount = undefined;
     }
+
+    
 }
