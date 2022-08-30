@@ -4,7 +4,6 @@
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(isset($_GET['createCat'])){
             $cat_name = $_POST['category_name'];
-            echo $cat_name;
             newCategory($cat_name);
         }
         elseif(isset($_GET['createItem'])){

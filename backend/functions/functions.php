@@ -17,16 +17,18 @@
 
     function getCategories(){
         $query = "SELECT * FROM categories";    
-        $item = $GLOBALS['db']->query($query);
+        $item = $GLOBALS['db']->prepare($query);
+        $item->execute();
 
-        return $item;
+        return $item->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     function getItems(){
         $query = "SELECT * FROM lists";
-        $item = $GLOBALS['db']->query($query);
+        $item = $GLOBALS['db']->prepare($query);
+        $item->execute();
         
-        return $item;
+        return $item->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     function deleteItem($id){
@@ -78,8 +80,8 @@
         $query = "SELECT * FROM categories WHERE id=$catId LIMIT 1";
         $category = $GLOBALS['db']->query($query);
         foreach($category as $cat){
-            $c_name = $cat['Name'];
-            $query = "INSERT INTO lists (category,nameOrContent) VALUES ('$c_name', '$content')";
+            $c_id = $cat['id'];
+            $query = "INSERT INTO lists (category,nameOrContent) VALUES ('$c_id', '$content')";
             $conn = $GLOBALS['db']->prepare($query);
             $conn->execute();
         }

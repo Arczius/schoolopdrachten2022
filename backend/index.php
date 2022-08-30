@@ -35,7 +35,7 @@
                     
                     <?php
                     foreach ($lists as $item) {
-                        if($item['category'] === $category['Name']){
+                        if($item['category'] == $category['id']){
                             ?>
                                 <li>
                                     <div class="name">
