@@ -15,4 +15,24 @@ body {
   background-position: center;
 }
 
+.gameHolder {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.gameHolder .pokemonActualHolder {
+  width: 100%;
+  display: grid;
+  justify-content: center;
+}
+.gameHolder li {
+  list-style: none;
+}
+.gameHolder li button {
+  padding: 7px;
+  border-radius: 4px;
+  border: none;
+}
+
 /*# sourceMappingURL=style.css.map */

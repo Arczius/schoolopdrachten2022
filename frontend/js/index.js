@@ -67,6 +67,7 @@ function randomPoke(){
     let minAmount = document.querySelector("input#gameMinutes").value;
     minutes = minAmount;
 
+    game(pokeAmount,minAmount);
 }
 
 function generatePokemonName(){
@@ -74,4 +75,86 @@ function generatePokemonName(){
     return pokemonArray[number];
 }
 
-console.log(generatePokemonName())
+
+
+var curPokemonAmount;
+var curPokemon;
+
+function checkValue(pokemonName){
+    if(pokemonName == curPokemon){
+        curPokemonAmount++;
+        goedeAntwoorden++;
+        game();
+    }
+    else{
+        curPokemonAmount++;
+        fouteAntwoorden++;
+        game();
+    }
+}
+
+function game(){
+
+    if(curPokemonAmount === undefined){
+        curPokemonAmount = 0;
+        fouteAntwoorden = 0;
+        goedeAntwoorden = 0;
+    }
+    
+    if(curPokemonAmount < pokemonAmount){
+        app.innerHTML = header;
+        curPokemon = generatePokemonName();
+
+        const arr = [
+            curPokemon,
+        ];
+        
+        for(let i = 0; i < 2; i++){
+            let pokemon = generatePokemonName();
+            while(arr.includes(pokemon)){
+                pokemon = generatePokemonName();
+            }
+            arr.push(pokemon);
+        }
+
+        let content;
+
+        for(let i = 0; i < 3; i++) {
+            let pokemon = arr[Math.floor(Math.random() * arr.length)];
+            let item = `<li><img src="./img/${pokemon}.png">${pokemon} <button>deze?</button></li>`;
+            if(content !== undefined){
+                while(content.includes(pokemon)){
+                    pokemon = arr[Math.floor(Math.random() * arr.length)];
+                }
+            }
+            item = `<li><button onclick="checkValue('${pokemon}')">${pokemon}</button></li>`;
+
+            if(i === 0){
+                content = item;
+            }
+            else{
+                content += item;
+            }
+        }       
+
+        app.innerHTML += `<ul class="gameHolder">
+        <div class="pokemonActualHolder">
+            <p>welke pokemon zie je hier?</p> 
+            <img src="./img/${curPokemon}.png">
+        </div>
+        ${content}
+        </ul>`;
+    }
+    else{
+        app.innerHTML = header;
+        app.innerHTML += `<div>
+            <ul>
+                <li>Goede antwoorden: ${goedeAntwoorden}</li>
+                <li>Foute antwoorden: ${fouteAntwoorden}</li>
+            </ul>
+        </div>`;
+        goedeAntwoorden = 0;
+        fouteAntwoorden = 0;
+        curPokemonAmount = undefined;
+    }
+}

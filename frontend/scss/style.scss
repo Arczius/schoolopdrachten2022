@@ -27,3 +27,25 @@ body{
 #app{
 
 }
+
+.gameHolder{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    .pokemonActualHolder{
+        width: 100%;
+        display: grid;
+        justify-content: center;
+
+
+    }
+    li{     
+        list-style: none;
+        button{
+            padding: 7px;
+            border-radius: 4px;
+            border: none;
+        }
+    }
+}
