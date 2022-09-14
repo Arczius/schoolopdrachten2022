@@ -10,9 +10,10 @@
             if(isset($_GET['catId'])){
 
                 $catid = $_GET['catId'];
-                $content = $_POST['item_name'];
+                $name = $_POST['item_name'];
+                $length = $_POST['item_length'];
                 
-                newItem($content, $catid);
+                newItem($name, $length, $catid);
             }
         }
     }
@@ -23,8 +24,8 @@
         ?>
             <h1>new category</h1>
             <form action="./new.php?createCat=true" method="post">
-                <input type="text" name="category_name" id="" placeholder="category name">
-                <input type="submit" value="submit">
+                <input class="input is-primary" type="text" name="category_name" id="" placeholder="category name" required>
+                <input type="submit" value="submit" class="button">
             </form>
         <?php
     }
@@ -33,8 +34,9 @@
         ?>
             <h1>new item</h1>
             <form action="./new.php?createItem=true&catId=<?php echo $catId; ?>" method="post">
-                <input type="text" name="item_name" placeholder="item name/content">
-                <input type="submit" value="submit">
+                <input class="input is-primary" type="text" name="item_name" placeholder="item name/content" required>
+                <input class="input is-primary" type="number" name="item_length" placeholder="lengte duur van item" required>
+                <input type="submit" value="submit" class="button">
             </form>
         <?php
     }
@@ -46,7 +48,7 @@
         include_once './parts/head.php';
         ?>
         <body>
-            <a href="./index.php"><button>back</button></a>
+            <a href="./index.php" ><button class="button">back</button></a>
             
         <?php
 
