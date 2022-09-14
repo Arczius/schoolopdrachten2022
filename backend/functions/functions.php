@@ -31,24 +31,63 @@
         return $item->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    function getItemsAsc(){
+        $query = "SELECT * FROM lists ORDER BY length ASC";
+        $item = $GLOBALS['db']->prepare($query);
+        $item->execute();
+        
+        return $item->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    function getItemsDesc(){
+        $query = "SELECT * FROM lists ORDER BY length DESC";
+        $item = $GLOBALS['db']->prepare($query);
+        $item->execute();
+        
+        return $item->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    function getSingleItem($id){
+        $query = "SELECT * FROM lists WHERE id = $id";
+        $item = $GLOBALS['db']->prepare($query);
+        $item->execute();
+
+        return $item->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    function getSingleCategory($id){
+        $query = "SELECT * FROM categories WHERE id = $id";
+        $item = $GLOBALS['db']->prepare($query);
+        $item->execute();
+
+        return $item->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     function deleteItem($id){
         $query = "DELETE FROM lists WHERE id=$id LIMIT 1";
         $conn = $GLOBALS['db']->prepare($query);
         $conn->execute();
+
+        redirectPage("./index.php");
     }
 
     function deleteCategory($id){
         $query = "SELECT * FROM categories WHERE id=$id LIMIT 1";
-        $item = $GLOBALS['db']->query($query);
+        $item = $GLOBALS['db']->prepare($query);
+        $item->execute();
+        $item = $item->fetchAll(\PDO::FETCH_ASSOC);
+
 
         $query = "SELECT * FROM lists";
-        $list_items = $GLOBALS['db']->query($query);
+        $list_items = $GLOBALS['db']->prepare($query);
+        $list_items->execute();
+        $list_items = $list_items->fetchAll(\PDO::FETCH_ASSOC);
 
         $exists = false;
 
         foreach($item as $loc_item){
             foreach($list_items as $list_item){
-                if($list_item['category'] === $loc_item['Name']){
+                if($list_item['category'] === $loc_item['id']){
                     $exists = true;
                 }
             }
@@ -76,14 +115,32 @@
     }
 
 
-    function newItem($content, $catId){
+    function newItem($content, $length, $catId){
         $query = "SELECT * FROM categories WHERE id=$catId LIMIT 1";
         $category = $GLOBALS['db']->query($query);
         foreach($category as $cat){
             $c_id = $cat['id'];
-            $query = "INSERT INTO lists (category,nameOrContent) VALUES ('$c_id', '$content')";
+            $query = "INSERT INTO lists (category,nameOrContent,length) VALUES ('$c_id', '$content', $length)";
             $conn = $GLOBALS['db']->prepare($query);
             $conn->execute();
         }
+        redirectPage("./index.php");
+    }
+
+
+    function updateCategory($id, $name){
+        $query = "UPDATE categories SET Name='$name' WHERE id=$id";
+        $conn = $GLOBALS['db']->prepare($query);
+        $conn->execute();
+        
+        redirectPage("./index.php");
+    }
+
+    
+    function updateItem($id, $name, $length){
+        $query = "UPDATE lists SET nameOrContent='$name', length='$length' WHERE id=$id";
+        $conn = $GLOBALS['db']->prepare($query);
+        $conn->execute();
+        
         redirectPage("./index.php");
     }
