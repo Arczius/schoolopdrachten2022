@@ -67,7 +67,7 @@
                 break;
             
             default: 
-                //redirectPage("./index.php");
+                redirectPage("./index.php");
             
             
         endswitch;
@@ -81,5 +81,5 @@
         <?php
     }
     else{
-        //redirectPage("./index.php");
+        redirectPage("./index.php");
     }

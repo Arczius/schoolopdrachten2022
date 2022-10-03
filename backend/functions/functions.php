@@ -137,10 +137,63 @@
     }
 
     
-    function updateItem($id, $name, $length){
-        $query = "UPDATE lists SET nameOrContent='$name', length='$length' WHERE id=$id";
+    function updateItem($id, $name, $length, $status){
+        $query = "UPDATE lists SET nameOrContent='$name', length='$length', status='$status' WHERE id=$id";
         $conn = $GLOBALS['db']->prepare($query);
         $conn->execute();
         
         redirectPage("./index.php");
+    }
+
+
+    function getParsedUrl(){
+        return parse_url("http://" . $_SERVER['HTTP_HOST'] .  $_SERVER['REQUEST_URI']);
+    }
+
+    function getItemsAscHasStatus($status){
+        switch($status){
+            case 'completed':
+            case 'working':
+            case 'open':
+                $query = "SELECT * FROM lists WHERE status = '$status' ORDER BY length ASC";
+                $item = $GLOBALS['db']->prepare($query);
+                $item->execute(); 
+                return $item->fetchAll(\PDO::FETCH_ASSOC);
+            break;
+
+            default:
+                redirectPage("./index.php");
+        }
+    }
+
+    function getItemsDescHasStatus($status){
+        switch($status){
+            case 'completed':
+            case 'working':
+            case 'open':
+                $query = "SELECT * FROM lists WHERE status = '$status' ORDER BY length DESC";
+                $item = $GLOBALS['db']->prepare($query);
+                $item->execute(); 
+                return $item->fetchAll(\PDO::FETCH_ASSOC);
+            break;
+
+            default:
+                redirectPage("./index.php");
+        }
+    }
+
+    function getItemsHasStatus($status){ 
+        switch($status){
+            case 'completed':
+            case 'working':
+            case 'open':
+                $query = "SELECT * FROM lists WHERE status = '$status'";
+                $item = $GLOBALS['db']->prepare($query);
+                $item->execute(); 
+                return $item->fetchAll(\PDO::FETCH_ASSOC);
+            break;
+
+            default:
+                redirectPage("./index.php");
+        }
     }

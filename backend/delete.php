@@ -16,9 +16,7 @@
             
             case 'item':
                 deleteItem($id);     
-                break;
-
-            
+                break; 
         endswitch;
         
         
