@@ -8,10 +8,16 @@ use App\Models\GenresSongs;
 
 class Home extends BaseController
 {
+    private $songsModel;
+    private $genreModel;
+    private $genresSongsModel;
     public function __construct()
     {
         helper("userLoginData");    
         helper("queueSongData");
+        $this->songsModel = new Songs();
+        $this->genreModel = new Genres();
+        $this->genresSongsModel = new GenresSongs();
     }
 
     public function index()
@@ -28,26 +34,17 @@ class Home extends BaseController
         echo view('templates/header', $data);
 
 
-        $songs = new Songs();
-        $genre = new Genres();
-        $genresSongs = new GenresSongs();
 
-        $all_songs = $songs->findAll();
 
 
         echo view('Home/index_base_start');
 
-        foreach($all_songs as $song){
-            $genre_song = $genresSongs->where('song_id', $song['id'])->find();
-            $songGenre = $genre->where('id', $genre_song[0]['genre_id'])->find();
 
+        $allGenres = $this->genreModel->findAll();
 
-            $data['songName'] = $song['songName'];
-            $data['artistName'] = $song['artistName'];
-            $data['songId'] = $song['id'];
-            $data['genreName'] = $songGenre[0]['name'];
-
-            echo view('Home/song', $data);
+        foreach($allGenres as $genre){
+            $data['category'] = $genre;
+            echo view('Home/genre', $data);
         }
 
 
@@ -60,5 +57,34 @@ class Home extends BaseController
         $data['queue'] = $queue;
 
         echo view('templates/queue', $data);
+    }
+
+    public function singleCat($catname){
+        $genre = $this->genreModel->where('name', $catname)->find();
+        $genreSongs = $this->genresSongsModel->where('genre_id', $genre[0]['id'])->findAll();
+
+
+        $data = [
+            'title' => "songs of $catname",
+            'isLoggedIn' => userLoginData(),
+        ];
+
+        echo view('templates/head', $data);
+        echo view('templates/header', $data);
+
+
+        echo view('Home/index_base_start');
+
+        foreach($genreSongs as $genreSong){
+            $song = $this->songsModel->where('id', $genreSong['song_id'])->find();
+            $song = $song[0];
+            $data['songName'] = $song['songName'];
+            $data['artistName'] = $song['artistName'];
+            $data['songId'] = $song['id'];
+            $data['genreName'] = $catname;
+            echo view('Home/song', $data);
+        }
+
+        echo view('Home/index_base_end');
     }
 }

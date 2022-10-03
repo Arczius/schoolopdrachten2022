@@ -1,5 +1,5 @@
 <li class="p-2 border-double border-4 border-sky-500 rounded-xl">
-    <a href="./songDetail/<?php echo $songId; ?>">
+    <a href="<?php echo base_url() ?>/songDetail/<?php echo $songId; ?>">
 
         <div class="title">
             <h3 class="text-3xl font-medium">
@@ -24,7 +24,7 @@
     <?php
         if(isset($isLoggedIn['username'])){
             ?>
-            <a class="text-4xl underline text-lime-600" href="./queue/<?php echo $songId; ?>">add to queue</a>
+            <a class="text-4xl underline text-lime-600" href="<?php echo base_url()?>/queue/<?php echo $songId; ?>">add to queue</a>
             <?php
         }
     ?>

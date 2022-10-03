@@ -3,7 +3,7 @@
         foreach($playlist as $plItem){
             ?>
                 <li>
-                    <a href="/playlist/<?php echo $plItem['id'];?>">
+                    <a href="<?php echo base_url() ?>/playlist/<?php echo $plItem['id'];?>">
 
                         <h3><?php echo $plItem['playlist_title']; ?></h3>
                         

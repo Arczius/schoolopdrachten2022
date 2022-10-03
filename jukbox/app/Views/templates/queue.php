@@ -6,7 +6,7 @@
             foreach($queue as $queueItem){
                 ?>
                     <li>
-                        <a href="/removeQueue/<?php echo $queueItem['id'] ?>">
+                        <a href="<?php echo base_url()?>/removeQueue/<?php echo $queueItem['id'] ?>">
                             <i class="fa-solid fa-trash-can"></i> <?php echo $queueItem['songName'];?>
                         </a>
                     </li>
@@ -14,7 +14,7 @@
                 <?php
             }
             ?>
-            <li><a href="/playlistGen">make playlist</a></li>
+            <li><a href="<?php echo base_url()?>/playlistGen">make playlist</a></li>
         </ul>
         <?php
     }

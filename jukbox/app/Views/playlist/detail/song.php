@@ -1,5 +1,5 @@
 <li>
-    <a href="/songDetail/<?php echo $id ?>">
+    <a href="<?php echo base_url()?>/songDetail/<?php echo $id ?>">
 
         <h3><?php echo $songName?></h3>
         <ul>

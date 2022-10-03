@@ -45,6 +45,7 @@ $routes->get("/playlists", 'playlist::index');
 $routes->get('/playlist/(:alphanum)', 'playlist::detail/$1');
 $routes->get("/playlistGen", 'queue::makePlaylist');
 $routes->get("/removeQueue/(:alphanum)", 'queue::removeQueue/$1');
+$routes->get("/category/(:alphanum)", 'Home::singleCat/$1');
 
 $routes->post('/login', 'login::login');
 $routes->post('/register', 'login::register');
