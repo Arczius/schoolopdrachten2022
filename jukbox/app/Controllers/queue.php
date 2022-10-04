@@ -17,11 +17,15 @@ class queue extends BaseController
     {
         $user = userLoginData();
         if(isset($user['username'])){
+
             if(isset($id) && is_numeric($id)){
-                if(isset(session()->get("queue")[0])){
+
+                if(session()->get("queue") !== null && count(session()->get("queue")) > 0){
+
                     if(!in_array($id, session()->get("queue"))){
                         session()->push("queue", [$id]);
                     } 
+
                 }
                 else{ 
                     session()->set("queue", [$id]);

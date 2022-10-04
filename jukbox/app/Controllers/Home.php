@@ -86,5 +86,15 @@ class Home extends BaseController
         }
 
         echo view('Home/index_base_end');
+
+
+
+        $queue = queueSongData();
+        
+
+
+        $data['queue'] = $queue;
+
+        echo view('templates/queue', $data);
     }
 }
