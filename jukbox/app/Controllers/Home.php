@@ -61,6 +61,11 @@ class Home extends BaseController
 
     public function singleCat($catname){
         $genre = $this->genreModel->where('name', $catname)->find();
+
+        if(count($genre) === 0){
+            return redirect("/");
+        }
+
         $genreSongs = $this->genresSongsModel->where('genre_id', $genre[0]['id'])->findAll();
 
 
