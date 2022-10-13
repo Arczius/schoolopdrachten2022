@@ -11,57 +11,57 @@ class songs extends Seeder
             [
                 'songname' => 'Paracetamol',
                 'artistname' => 'Appelkaas',
-                'length' => '2:02',
+                'length' => '02:02',
             ],
             [
                 'songname' => 'DISCOTEK',
                 'artistname' => 'Rooler',
-                'length' => '4:27',
+                'length' => '04:27',
             ],
             [
                 'songname' => 'Monster',
                 'artistname' => 'Skillet',
-                'length' => '3:07',
+                'length' => '03:07',
             ],
             [
                 'songname' => 'Critter',
                 'artistname' => 'Angerfist',
-                'length' => '3:04',
+                'length' => '03:04',
             ],
             [
                 'songname' => 'Devil Town',
                 'artistname' => 'Cavetown',
-                'length' => '3:00',
+                'length' => '03:00',
             ],
             [
                 'songname' => 'Rät',
                 'artistname' => 'Penelope Scott',
-                'length' => '3:15',
+                'length' => '03:15',
             ],
             [
                 'songname' => 'Art Is Dead',
                 'artistname' => 'Bo Burnham',
-                'length' => '2:33',
+                'length' => '02:33',
             ],
             [
                 'songname' => 'Everywhere I Go',
                 'artistname' => 'Hollywood Undead',
-                'length' => '3:31',
+                'length' => '03:31',
             ],
             [
                 'songname' => 'The Rumbling',
                 'artistname' => 'SiM',
-                'length' => '3:44',
+                'length' => '03:44',
             ],
             [
                 'songname' => 'Im Yer Dad',
                 'artistname' => 'GRLwood',
-                'length' => '2:25',
+                'length' => '02:25',
             ],
             [
                 'songname' => 'life waster',
                 'artistname' => 'CORPSE',
-                'length' => '2:23',
+                'length' => '02:23',
             ]
         ];
 

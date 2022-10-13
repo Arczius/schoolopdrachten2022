@@ -11,6 +11,7 @@ class Home extends BaseController
     private $songsModel;
     private $genreModel;
     private $genresSongsModel;
+
     public function __construct()
     {
         helper("userLoginData");    
@@ -32,9 +33,6 @@ class Home extends BaseController
         
         echo view('templates/head', $data);
         echo view('templates/header', $data);
-
-
-
 
 
         echo view('Home/index_base_start');
@@ -96,7 +94,6 @@ class Home extends BaseController
 
         $queue = queueSongData();
         
-
 
         $data['queue'] = $queue;
 

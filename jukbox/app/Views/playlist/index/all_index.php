@@ -15,8 +15,18 @@
                                         ?>
 
 <div>
-    a playlist by: <?php echo $user['username']; ?>
+    a playlist by: <a href="<?php echo base_url()."/user/". $user['username']; ?>"><?php echo $user['username']; ?></a>
 </div>
+
+<?php
+    if(isset($isLoggedIn['id']) && $user['id'] === $isLoggedIn['id']){
+        ?>
+        <a href="<?php echo base_url(). '/playlists/delete/'. $plItem['id']; ?>">
+            delete
+        </a>
+        <?php
+    }
+?>
 
 <?php
                                     }

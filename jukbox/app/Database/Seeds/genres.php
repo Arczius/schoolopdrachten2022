@@ -10,7 +10,7 @@ class genres extends Seeder
     {
         $data = [
             'hardcore', 
-            'uptempo', 
+            'rawstyle', 
             'metal', 
             'rap', 
             'indie'

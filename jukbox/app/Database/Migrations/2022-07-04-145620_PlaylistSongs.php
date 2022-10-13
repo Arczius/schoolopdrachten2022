@@ -24,7 +24,11 @@ class PlaylistSongs extends Migration
             'song_id' => [
                 'type' => 'INT',
                 'constraint' => 5,
-            ]
+            ],
+            'playlist_order' => [
+                'type' => 'INT',
+                'constraint' => 5,
+            ],
         ]);
 
         $this->forge->addKey('id', true);

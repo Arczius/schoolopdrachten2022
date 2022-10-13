@@ -46,10 +46,24 @@ $routes->get('/playlist/(:alphanum)', 'playlist::detail/$1');
 $routes->get("/playlistGen", 'queue::makePlaylist');
 $routes->get("/removeQueue/(:alphanum)", 'queue::removeQueue/$1');
 $routes->get("/category/(:alphanum)", 'Home::singleCat/$1');
+$routes->get("/playlists/delete/(:alphanum)", 'Playlist::deletePlaylist/$1');
+$routes->get("/playlist/deleteSong/(:alphanum)/(:alphanum)", 'Playlist::deleteSong/$1/$2');
+
+$routes->get("/user/(:alphanum)", "User::detail/$1");
+
+$routes->match(['get', 'post'], "/changeName/(:alphanum)", "Playlist::changePlaylistName/$1");
+$routes->match(['get', 'post'], "/addSong/(:alphanum)", "Playlist::addSong/$1");
+
+$routes->get("/playlist/moveSongDown/(:alphanum)/(:alphanum)", 'Playlist::orderDown/$1/$2');
+$routes->get("/playlist/moveSongUp/(:alphanum)/(:alphanum)", 'Playlist::orderUp/$1/$2');
+
 
 $routes->post('/login', 'login::login');
 $routes->post('/register', 'login::register');
 $routes->post('/playlistGen', 'queue::makePlaylist');
+
+
+
 
 /*
  * --------------------------------------------------------------------
