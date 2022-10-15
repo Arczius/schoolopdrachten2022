@@ -3,18 +3,20 @@
 
 
 
+    // using javascript alert's in your php code
     function alert($message){
         echo "<script type='text/javascript'>
             alert('$message'); 
         </script>";
     }
 
+    // a function to redirect you to a different page using a php header
     function redirectPage($location){
         header('location: ' . $location);
         exit;
     }
     
-
+    // a function to get all the categories from the database
     function getCategories(){
         $query = "SELECT * FROM categories";    
         $item = $GLOBALS['db']->prepare($query);
@@ -23,6 +25,7 @@
         return $item->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    // a function to get all the items from the database
     function getItems(){
         $query = "SELECT * FROM lists";
         $item = $GLOBALS['db']->prepare($query);
@@ -31,6 +34,7 @@
         return $item->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    // a function to get all the items from the database in an ascending order
     function getItemsAsc(){
         $query = "SELECT * FROM lists ORDER BY length ASC";
         $item = $GLOBALS['db']->prepare($query);
@@ -39,6 +43,7 @@
         return $item->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    // a function to get all the items from the database in an descending order
     function getItemsDesc(){
         $query = "SELECT * FROM lists ORDER BY length DESC";
         $item = $GLOBALS['db']->prepare($query);
@@ -47,30 +52,37 @@
         return $item->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    // a function to get a single item from the database
     function getSingleItem($id){
-        $query = "SELECT * FROM lists WHERE id = $id";
+        $query = "SELECT * FROM lists WHERE id = :id";
         $item = $GLOBALS['db']->prepare($query);
+        $item->bindParam('id', $id, PDO::PARAM_INT);
         $item->execute();
 
         return $item->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    // a function to get a single category from the database
     function getSingleCategory($id){
-        $query = "SELECT * FROM categories WHERE id = $id";
+        $query = "SELECT * FROM categories WHERE id = :id";
         $item = $GLOBALS['db']->prepare($query);
+        $item->bindParam('id', $id, PDO::PARAM_INT);
         $item->execute();
 
         return $item->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    // a function to delete a single item from the database
     function deleteItem($id){
-        $query = "DELETE FROM lists WHERE id=$id LIMIT 1";
+        $query = "DELETE FROM lists WHERE id=:id LIMIT 1";
         $conn = $GLOBALS['db']->prepare($query);
+        $conn->bindParam('id', $id, PDO::PARAM_INT);
         $conn->execute();
 
         redirectPage("./index.php");
     }
 
+    // a function to delete a single category from the database
     function deleteCategory($id){
         $query = "SELECT * FROM categories WHERE id=$id LIMIT 1";
         $item = $GLOBALS['db']->prepare($query);
@@ -94,8 +106,9 @@
         }
 
         if(!$exists){
-            $query = "DELETE FROM categories WHERE id=$id LIMIT 1";
+            $query = "DELETE FROM categories WHERE id=:id LIMIT 1";
             $conn = $GLOBALS['db']->prepare($query);
+            $conn->bindParam('id', $id, PDO::PARAM_INT);
             $conn->execute();
 
             redirectPage("./index.php");
@@ -106,28 +119,35 @@
     }
 
 
+    // a function to make a new category in the database
     function newCategory($name){
-        $query = "INSERT INTO categories (Name) VALUES('$name')";
+        $query = "INSERT INTO categories (Name) VALUES(':name')";
         $conn = $GLOBALS['db']->prepare($query);
+        $conn->bindParam('name', $name, PDO::PARAM_STR);
         $conn->execute();
 
         redirectPage("./index.php");
     }
 
 
+    // a function to make a new item in the database
     function newItem($content, $length, $catId){
         $query = "SELECT * FROM categories WHERE id=$catId LIMIT 1";
         $category = $GLOBALS['db']->query($query);
         foreach($category as $cat){
             $c_id = $cat['id'];
-            $query = "INSERT INTO lists (category,nameOrContent,length) VALUES ('$c_id', '$content', $length)";
+            $query = "INSERT INTO lists (category,nameOrContent,length) VALUES ( :cat_id, ':content', :length )";
             $conn = $GLOBALS['db']->prepare($query);
+            $conn->bindParam('cat_id', $c_id, PDO::PARAM_INT);
+            $conn->bindParam('content', $content, PDO::PARAM_STR);
+            $conn->bindParam('length', $length, PDO::PARAM_INT);
             $conn->execute();
         }
         redirectPage("./index.php");
     }
 
 
+    // a function to update a category in the database
     function updateCategory($id, $name){
         $query = "UPDATE categories SET Name='$name' WHERE id=$id";
         $conn = $GLOBALS['db']->prepare($query);
@@ -137,8 +157,9 @@
     }
 
     
+    // a function to update a item in the database
     function updateItem($id, $name, $length, $status){
-        $query = "UPDATE lists SET nameOrContent='$name', length='$length', status='$status' WHERE id=$id";
+        $query = "UPDATE lists SET nameOrContent='$name', length='$length', Status='$status' WHERE id=$id";
         $conn = $GLOBALS['db']->prepare($query);
         $conn->execute();
         
@@ -146,10 +167,12 @@
     }
 
 
+    // a function to get a parsed url so you can see all the information about the url
     function getParsedUrl(){
         return parse_url("http://" . $_SERVER['HTTP_HOST'] .  $_SERVER['REQUEST_URI']);
     }
 
+    // a function to get all items in an ascending order, with a specific status, from the database
     function getItemsAscHasStatus($status){
         switch($status){
             case 'completed':
@@ -166,6 +189,7 @@
         }
     }
 
+    // a function to get all items in an descending order, with a specific status, from the database
     function getItemsDescHasStatus($status){
         switch($status){
             case 'completed':
@@ -182,6 +206,7 @@
         }
     }
 
+    // a function to get all items  with a specific status from the database
     function getItemsHasStatus($status){ 
         switch($status){
             case 'completed':
