@@ -159,8 +159,12 @@
     
     // a function to update a item in the database
     function updateItem($id, $name, $length, $status){
-        $query = "UPDATE lists SET nameOrContent='$name', length='$length', Status='$status' WHERE id=$id";
+        $query = "UPDATE lists SET nameOrContent=':name', length=:length, status=':status' WHERE id=:id";
         $conn = $GLOBALS['db']->prepare($query);
+        $conn->bindParam('length', $length, PDO::PARAM_INT);
+        $conn->bindParam('name', $name, PDO::PARAM_STR);
+        $conn->bindParam('status', $status, PDO::PARAM_STR);
+        $conn->bindParam('id', $id, PDO::PARAM_INT);
         $conn->execute();
         
         redirectPage("./index.php");
