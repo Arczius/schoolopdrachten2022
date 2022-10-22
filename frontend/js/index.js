@@ -26,15 +26,12 @@ const header = `
     <div>
         <button onclick="homeButton();">Home</button> 
     </div>
-
 </div>
 `;
 
 const home = `
 ${header}
 <div class="homeContainer">
-
-
     <div class="inner">
         <button onclick="showAllPokemon();">Show All Pokemon</button> 
         <button onclick="showAllThemes()">Show a theme</button>
@@ -108,8 +105,6 @@ const generatePokemonName = () => {
     return pokemonArray[number];
 }
 
-
-
 var curPokemonAmount;
 var curPokemon;
 
@@ -127,7 +122,6 @@ const checkValue = (pokemonName) => {
 }
 
 const game = () => {
-    console.log(pokemonAmount);
 
     if(curPokemonAmount === undefined){
         curPokemonAmount = 0;
@@ -193,5 +187,5 @@ const game = () => {
         goedeAntwoorden = 0;
         fouteAntwoorden = 0;
         curPokemonAmount = undefined;
-    }   
+    }
 }
