@@ -11,7 +11,7 @@ class ManageCookies{
   * @param {string} sameSite - the samesite attribute for the cookie, choose between: none, Lax, Strict
   */
   create(name, val, days, sameSite){
-      document.cookie = `${name}=${val};expires=${this.calculateDays(days)};path=/;SameSite=${sameSite}`;        
+    document.cookie = `${name}=${val};expires=${this.calculateDays(days)};path=/;SameSite=${sameSite}`;        
   }
 
   /**
@@ -20,7 +20,7 @@ class ManageCookies{
   * @returns 
   */
   calculateDays(days){
-      return new Date(new Date().getTime() + (days * 24 * 60 * 60 * 100));
+    return new Date(new Date().getTime() + (days * 24 * 60 * 60 * 100));
   }
 
   /**
@@ -29,7 +29,7 @@ class ManageCookies{
   * @returns 
   */
   exists(name){
-      return document.cookie.includes(name);
+    return document.cookie.includes(name);
   }
 
   /**
@@ -46,6 +46,6 @@ class ManageCookies{
    * @param {string} name - the name of the cookie you want to delete
    */
   delete(name){
-      document.cookie = `${name}=null;expires=1;path=/;SameSite=Strict`;
+    document.cookie = `${name}=null;expires=1;path=/;SameSite=Strict`;
   }
 }
