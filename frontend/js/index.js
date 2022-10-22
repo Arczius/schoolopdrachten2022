@@ -1,9 +1,24 @@
 "use strict";
 
 const app = document.querySelector("#app");
+const Cookie = new ManageCookies();
 
 var fouteAntwoorden;
 var goedeAntwoorden;
+
+const startupSetTheme = () => {
+    if(Cookie.exists("Theme")){
+        const ThemeVal = Cookie.value("Theme");
+        if(Themes.includes(ThemeVal)){
+            document.querySelector("html").classList.add(ThemeVal);
+        }
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    startupSetTheme();
+});
+
 
 const header = `
 <div class="header">
@@ -22,20 +37,39 @@ ${header}
 
     <div class="inner">
         <button onclick="showAllPokemon();">Show All Pokemon</button> 
-
+        <button onclick="showAllThemes()">Show a theme</button>
         <button onclick="startGame();">Start</button>
     </div>
+
 </div>
 `;
 
 app.innerHTML = home;
 
-function homeButton(){
+const homeButton = () => {
     app.innerHTML = home;
 }
 
+const showAllThemes = () => {
+    let item = `
+    ${header}
+    <div>
+        <button onclick="pickTheme('pink')">Pink</button>
+        <button onclick="pickTheme('blue')">Blue</button>
+        <button onclick="pickTheme('black')">Black</button>
+    </div>
+    `;
+    app.innerHTML = item;
+}
 
-function showAllPokemon(){ 
+const pickTheme = (ThemeName) => {
+    if(Themes.includes(ThemeName.toLowerCase())){
+        Cookie.create("Theme", ThemeName, 7, "Strict");
+        window.location.href = "/"
+    }
+}
+
+const showAllPokemon = () => { 
     app.innerHTML = header;
 
     app.innerHTML += `<ul class="list">`;
@@ -47,7 +81,7 @@ function showAllPokemon(){
 
 var pokemonAmount = 0;
 
-function startGame(){
+const startGame = () => {
     app.innerHTML = header;
 
     app.innerHTML += `
@@ -58,7 +92,7 @@ function startGame(){
     </div>`;
 }
 
-function randomPoke(){
+const randomPoke = () => {
     let pokeAmount = document.querySelector("input#pokeAmount").value;
     pokemonAmount = pokeAmount;
     if(pokemonAmount != 0){        
@@ -69,7 +103,7 @@ function randomPoke(){
     }
 }
 
-function generatePokemonName(){
+const generatePokemonName = () => {
     let number = Math.floor(Math.random() * pokemonArray.length);
     return pokemonArray[number];
 }
@@ -79,7 +113,7 @@ function generatePokemonName(){
 var curPokemonAmount;
 var curPokemon;
 
-function checkValue(pokemonName){
+const checkValue = (pokemonName) => {
     if(pokemonName == curPokemon){
         curPokemonAmount++;
         goedeAntwoorden++;
@@ -92,7 +126,7 @@ function checkValue(pokemonName){
     }
 }
 
-function game(){
+const game = () => {
     console.log(pokemonAmount);
 
     if(curPokemonAmount === undefined){
@@ -159,7 +193,5 @@ function game(){
         goedeAntwoorden = 0;
         fouteAntwoorden = 0;
         curPokemonAmount = undefined;
-    }
-
-    
+    }   
 }
