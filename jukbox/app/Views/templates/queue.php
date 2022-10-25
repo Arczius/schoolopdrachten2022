@@ -2,7 +2,19 @@
     if(isset($queue[0]) ){
         ?>
         <ul class="fixed right-8 bottom-12 bg-white">
+            <div>
+
+            Lengte:
             <?php            
+            helper("PlaylistTimer");
+
+            $PlaylistTimeHelper = new PlaylistTimer();
+
+            echo $PlaylistTimeHelper->getFromInputOfSongIDs($queue);
+            ?>
+
+            </div>
+            <?php
             foreach($queue as $queueItem){
                 ?>
                     <li>

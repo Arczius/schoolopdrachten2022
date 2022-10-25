@@ -1,11 +1,17 @@
 <?php 
-helper("playlistTime");
+helper("PlaylistTimer");
 ?>
 
 <h1 class="text-5xl"><?php echo $title?></h1>
 <h3 class="text-2xl">A Playlist By: <a class="text-indigo-800" href="<?php echo base_url() . "/user/" . $user?>"><?php echo $user ?></a></h3>
 
-<h5 class="text-xl">totale lengte: <?php echo playlistTime($playlistID); ?></h5>
+<h5 class="text-xl">totale lengte: <?php 
+
+
+$playlistTimeManager = new PlaylistTimer();
+
+echo $playlistTimeManager->getFromModel($playlistID);
+?></h5>
 
 <?php
     if($isLoggedIn !== null && $userID === $isLoggedIn['id']){
