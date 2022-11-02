@@ -50,4 +50,31 @@ html.blue body {
   display: none;
 }
 
+.timer {
+  width: 100%;
+  text-align: center;
+}
+
+.namesHolder {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  padding-bottom: 20px;
+}
+.namesHolder div {
+  width: 100%;
+}
+
+.imagesHolder {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+.imagesHolder div {
+  width: 100%;
+}
+.imagesHolder div img {
+  width: 100%;
+}
+
 /*# sourceMappingURL=style.css.map */

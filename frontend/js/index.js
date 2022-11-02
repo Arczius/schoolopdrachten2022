@@ -84,7 +84,7 @@ const startGame = () => {
 
     app.innerHTML += `
     <div class="game">
-        pokemon: <input type="number" id="pokeAmount" value="${pokemonAmount}"></input>
+        pokemon: <input type="number" id="pokeAmount" value="${pokemonAmount}" max="${pokemonArray.length}"></input>
         <br>
         tijd in seconden: <input type="number" value=${PokemonSeconds} id="pokemonSeconds"></input>
         <br>
@@ -112,18 +112,69 @@ const generatePokemonName = () => {
 
 var curPokemonAmount;
 var curPokemon;
+var pokemonLeft;
 
 const checkValue = (pokemonName) => {
+    if(pokemonLeft !== 0){
+        let checkbox = document.querySelector(`#` + pokemonName);
+        if(checkbox !== null && checkbox !== undefined){
+            if(checkbox.checked){
+                goedeAntwoorden++;
+                let corrAnw = document.getElementsByClassName(pokemonName);
+                corrAnw[0].remove();
+                corrAnw[0].remove();
+                console.log(pokemonLeft)
+                pokemonLeft--;
+            }
+            else{
+                fouteAntwoorden++;
+            }
+        }
+    }
+    else{
+        goedeAntwoorden++;
+        gameDone(interval, seconds);
+    }
 }
 
+var interval;
+var seconds = 0;
 
 const game = () => {
-    let seconds = parseInt(PokemonSeconds);
+    seconds = parseInt(PokemonSeconds);
+    let pokemonArr = [];
+    
+    for(let i = 0; i < parseInt(pokemonAmount); i++){
+        let pokemonName = generatePokemonName();
+        if(!pokemonArr.includes(pokemonName)) pokemonArr.push(pokemonName);
+    }
+    pokemonLeft = parseInt(pokemonAmount) - 1;
+    // let namesArr = pokemonArr.sort();
 
-    app.innerHTML = header;
-    app.innerHTML += `<div class="timer"></div>`;
+    let names = "<div class='namesHolder'>";
+    let images = "<div class='imagesHolder'>";
 
+    pokemonArr.forEach((val) => {
+        images += `<div class="${val}">
+        <img src="./img/${val}.png" onclick="checkValue('${val}')">
+        </div>`;
 
+    });
+
+    pokemonArr.sort().forEach((val) => {
+        names += `<div class="${val}">
+        <input class="hidden" id="${val}" type="checkbox" name=${val}></input>  
+        <label for="${val}">${val}</label>
+        </div>`;
+    });
+
+    names += "</div>";
+    images += "</div>";
+
+    app.innerHTML = `<div class="timer"></div>`;
+
+    app.innerHTML += names;
+    app.innerHTML += images;
 
     if(curPokemonAmount === undefined){
         curPokemonAmount = 0;
@@ -132,7 +183,7 @@ const game = () => {
     }
 
 
-    let interval = setInterval(function() {
+    interval = setInterval(function() {
         if(document.querySelector(".timer") !== undefined || document.querySelector(".timer") !== null) {
             document.querySelector(".timer").innerHTML = seconds; 
         }
@@ -156,4 +207,6 @@ const gameDone = (interval, secondsLeft) => {
         <li>aantal vragen fout beantwoord: ${fouteAntwoorden}</li>
     </ul>
     `;
+    goedeAntwoorden = 0;
+    fouteAntwoorden = 0;
 }
