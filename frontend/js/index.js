@@ -77,6 +77,7 @@ const showAllPokemon = () => {
 }
 
 var pokemonAmount = 0;
+var PokemonSeconds = 0;
 
 const startGame = () => {
     app.innerHTML = header;
@@ -85,12 +86,16 @@ const startGame = () => {
     <div class="game">
         pokemon: <input type="number" id="pokeAmount" value="${pokemonAmount}"></input>
         <br>
+        tijd in seconden: <input type="number" value=${PokemonSeconds} id="pokemonSeconds"></input>
+        <br>
         <button onclick="randomPoke();">Start</button>
     </div>`;
 }
 
 const randomPoke = () => {
     let pokeAmount = document.querySelector("input#pokeAmount").value;
+    let timeAmount = document.querySelector("input#pokemonSeconds").value
+    PokemonSeconds = timeAmount;
     pokemonAmount = pokeAmount;
     if(pokemonAmount != 0){        
         game();
@@ -109,83 +114,46 @@ var curPokemonAmount;
 var curPokemon;
 
 const checkValue = (pokemonName) => {
-    if(pokemonName == curPokemon){
-        curPokemonAmount++;
-        goedeAntwoorden++;
-        game();
-    }
-    else{
-        curPokemonAmount++;
-        fouteAntwoorden++;
-        game();
-    }
 }
 
+
 const game = () => {
+    let seconds = parseInt(PokemonSeconds);
+
+    app.innerHTML = header;
+    app.innerHTML += `<div class="timer"></div>`;
+
+
 
     if(curPokemonAmount === undefined){
         curPokemonAmount = 0;
         fouteAntwoorden = 0;
         goedeAntwoorden = 0;
     }
-    
-    if(pokemonAmount !== 0){
 
-    }
-    if(curPokemonAmount < pokemonAmount){
-        app.innerHTML = header;
-        curPokemon = generatePokemonName();
 
-        const arr = [
-            curPokemon,
-        ];
-        
-        for(let i = 0; i < 2; i++){
-            let pokemon = generatePokemonName();
-            while(arr.includes(pokemon)){
-                pokemon = generatePokemonName();
-            }
-            arr.push(pokemon);
+    let interval = setInterval(function() {
+        if(document.querySelector(".timer") !== undefined || document.querySelector(".timer") !== null) {
+            document.querySelector(".timer").innerHTML = seconds; 
         }
+        if(seconds === 0){
+            gameDone(interval, seconds);
+            alert("de tijd is op");
+        } 
+        seconds--;
+    }, 1000);
+}
 
-        let content;
-
-        for(let i = 0; i < 3; i++) {
-            let pokemon = arr[Math.floor(Math.random() * arr.length)];
-            let item = `<li><img src="./img/${pokemon}.png">${pokemon} <button>deze?</button></li>`;
-            if(content !== undefined){
-                while(content.includes(pokemon)){
-                    pokemon = arr[Math.floor(Math.random() * arr.length)];
-                }
-            }
-            item = `<li><button onclick="checkValue('${pokemon}')">${pokemon}</button></li>`;
-
-            if(i === 0){
-                content = item;
-            }
-            else{
-                content += item;
-            }
-        }       
-
-        app.innerHTML += `<ul class="gameHolder">
-        <div class="pokemonActualHolder">
-            <p>welke pokemon zie je hier?</p> 
-            <img src="./img/${curPokemon}.png">
-        </div>
-        ${content}
-        </ul>`;
-    }
-    else{
-        app.innerHTML = header;
-        app.innerHTML += `<div>
-            <ul>
-                <li>Goede antwoorden: ${goedeAntwoorden}</li>
-                <li>Foute antwoorden: ${fouteAntwoorden}</li>
-            </ul>
-        </div>`;
-        goedeAntwoorden = 0;
-        fouteAntwoorden = 0;
-        curPokemonAmount = undefined;
-    }
+const gameDone = (interval, secondsLeft) => {
+    clearInterval(interval);
+    app.innerHTML = header;
+    app.innerHTML += `
+    <ul>
+        <li>aantal ingestelde vragen: ${pokemonAmount}</li>
+        <li>aantal ingestelde seconden: ${PokemonSeconds}</li>
+        <li>aantal seconden over: ${secondsLeft}</li>
+        <li>aantal vragen correct beantwoord: ${goedeAntwoorden}
+        <li>aantal vragen fout beantwoord: ${fouteAntwoorden}</li>
+    </ul>
+    `;
 }
