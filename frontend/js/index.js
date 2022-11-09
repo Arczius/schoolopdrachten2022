@@ -128,6 +128,10 @@ const checkValue = (pokemonName) => {
             }
             else{
                 fouteAntwoorden++;
+                let item = document.querySelectorAll('input[type=checkbox]');
+                for(let i = 0; i < item.length; i++){
+                    item[i].checked = false;
+                }
             }
         }
     }
