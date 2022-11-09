@@ -20,7 +20,12 @@ class Home extends BaseController
         $this->genreModel = new Genres();
         $this->genresSongsModel = new GenresSongs();
     }
-
+    
+    /**
+     * index - home page for the app ( the page where you can see all the genre's etc )
+     *
+     * @return void
+     */
     public function index()
     {
 
@@ -56,7 +61,13 @@ class Home extends BaseController
 
         echo view('templates/queue', $data);
     }
-
+    
+    /**
+     * singleCat - a detail page for a single category
+     *
+     * @param  string $catname the name of the genre
+     * @return void
+     */
     public function singleCat($catname){
         $genre = $this->genreModel->where('name', $catname)->find();
 

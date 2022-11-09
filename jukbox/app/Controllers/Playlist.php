@@ -2,14 +2,11 @@
 
 namespace App\Controllers;
 
-use App\Database\Seeds\playlist as SeedsPlaylist;
-use App\Database\Seeds\playlist_users;
 use App\Models\Playlists;
 use App\Models\Users;
 use App\Models\PlaylistUsers;
 use App\Models\PlaylistSongs;
 use App\Models\Songs;
-use playlistTime;
 use CodeIgniter\Database\RawSql;
 
 class Playlist extends BaseController
@@ -19,7 +16,12 @@ class Playlist extends BaseController
         helper("userLoginData");    
         helper("queueSongData");
     }
-
+    
+    /**
+     * index - the all playlist page
+     *
+     * @return void
+     */
     public function index()
     {
         $data = [
@@ -42,7 +44,13 @@ class Playlist extends BaseController
 
         echo view("playlist/index/all_index", $data);
     }
-
+    
+    /**
+     * deletePlaylist - a method for deleting a playlist
+     *
+     * @param  int|string $id the id of the playlist you want to delete
+     * @return void
+     */
     public function deletePlaylist($id){
         $playlistUsersModel = new PlaylistUsers();
         $playlistSongModel = new PlaylistSongs();
@@ -60,7 +68,13 @@ class Playlist extends BaseController
         return redirect()->to("/playlists");
     }
 
-
+    
+    /**
+     * detail - the playlist detail pages
+     *
+     * @param  int|string $id the id of the playlist you want to select
+     * @return void
+     */
     public function detail($id)
     {
         helper("playlistTime");
@@ -127,7 +141,14 @@ class Playlist extends BaseController
     }
 
 
-
+    
+    /**
+     * deleteSong - a method to delete a song from the playlist
+     *
+     * @param  int|string $playlistID the id of the playlist you want to delete the song from
+     * @param  int|string $songID the id of the song you want to remove from the playlist
+     * @return void
+     */
     public function deleteSong($playlistID, $songID){
         $user = userLoginData();
 
@@ -158,9 +179,15 @@ class Playlist extends BaseController
         }
 
         return redirect()->to("/playlist/$playlistID");
-
     }
-
+    
+    /**
+     * orderUp - a method to make the order of an item go up in the playlist
+     *
+     * @param  int|string $playlistID the id of the playlist which song you wanna move up in the order
+     * @param  int|string $songID the id of the song you want order the id up
+     * @return void
+     */
     public function orderUp($playlistID, $songID){
 
         $playlistSongModel = new PlaylistSongs();        
@@ -205,7 +232,14 @@ class Playlist extends BaseController
         return redirect()->to("/playlist/$playlistID");
     }
 
-
+    
+    /**
+     * orderDown - a method to make the order of an item go down in the playlist
+     *
+     * @param  int|string $playlistID the id of the playlist which song you wanna move down in the order
+     * @param  int|string $songID the id of the song you want order the id down
+     * @return void
+     */
     public function orderDown($playlistID, $songID){
         $playlistSongModel = new PlaylistSongs();        
 
@@ -249,7 +283,13 @@ class Playlist extends BaseController
         return redirect()->to("/playlist/$playlistID");
 
     }
-
+    
+    /**
+     * changePlaylistName
+     *
+     * @param  mixed $playlistID
+     * @return void
+     */
     public function changePlaylistName($playlistID){
         $user = userLoginData();
 
@@ -276,7 +316,13 @@ class Playlist extends BaseController
 
         return redirect()->to("/playlist/$playlistID");
     }
-
+    
+    /**
+     * addSong - a method to add a song to a certain playlist
+     *
+     * @param  int|string $playlistID the id of the playlist where you wanna add the song to
+     * @return void
+     */
     public function addSong($playlistID){
         $playlistUsersModel = new PlaylistUsers();
 
