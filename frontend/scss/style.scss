@@ -64,3 +64,13 @@ html{
         }
     }
 }
+
+.scoreboard{
+    display: grid;
+    justify-content: center;
+    gap: 3rem;
+
+    h3{
+        font-size: 3rem;
+    }
+}

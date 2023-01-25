@@ -19,6 +19,41 @@ window.addEventListener('DOMContentLoaded', () => {
     startupSetTheme();
 });
 
+const scoreBoardArr = [];
+
+const addScoreToScoreBoard = (goodAnswers, badAnswers, maxSeconds, SecondsLeft, totalPokemon) => {
+    if(scoreBoardArr.length === 10) scoreBoardArr.remove(9);
+
+    scoreBoardArr.push(
+        {
+            "goodAnswers": goodAnswers, 
+            "badAnswers": badAnswers,
+            "maxSeconds": maxSeconds,
+            "secondsLeft": SecondsLeft,
+            "totalPokemon": totalPokemon
+        }
+    );
+}
+
+const genScoreBoardLastGames = () => {
+    let items = `<div class="scoreboard">
+        <h3>Scorebord</h3>   
+    `;
+    scoreBoardArr.forEach((item, index) => {
+        items += `<div class="item">
+            <p>Game: ${index + 1}</p> 
+            <p>Aantal pokemon om te raden: ${item.totalPokemon}</p>
+            <p>Goede antwoorden: ${item.goodAnswers}</p>
+            <p>Foute antwoorden: ${item.badAnswers}</p>
+            <p>Maximale tijd: ${item.maxSeconds}</p>
+            <p>Seconden over: ${item.secondsLeft}</p>
+        </div>`;        
+    });
+
+    items += `</div>`;
+
+    return items;
+}
 
 const header = `
 <div class="header">
@@ -37,7 +72,6 @@ ${header}
         <button onclick="showAllThemes()">Show a theme</button>
         <button onclick="startGame();">Start</button>
     </div>
-
 </div>
 `;
 
@@ -45,6 +79,7 @@ app.innerHTML = home;
 
 const homeButton = () => {
     app.innerHTML = home;
+    app.innerHTML += genScoreBoardLastGames();
 }
 
 const showAllThemes = () => {
@@ -211,6 +246,9 @@ const gameDone = (interval, secondsLeft) => {
         <li>aantal vragen fout beantwoord: ${fouteAntwoorden}</li>
     </ul>
     `;
+
+    addScoreToScoreBoard(goedeAntwoorden, fouteAntwoorden, PokemonSeconds, secondsLeft, pokemonAmount);
+    console.log(genScoreBoardLastGames());
     goedeAntwoorden = 0;
     fouteAntwoorden = 0;
 }

@@ -77,4 +77,13 @@ html.blue body {
   width: 100%;
 }
 
+.scoreboard {
+  display: grid;
+  justify-content: center;
+  gap: 3rem;
+}
+.scoreboard h3 {
+  font-size: 3rem;
+}
+
 /*# sourceMappingURL=style.css.map */
