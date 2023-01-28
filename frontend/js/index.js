@@ -15,11 +15,28 @@ const startupSetTheme = () => {
     }
 }
 
+
 window.addEventListener('DOMContentLoaded', () => {
     startupSetTheme();
 });
 
 const scoreBoardArr = [];
+
+const initialiseLocalScoreboard = () => {
+    if(Cookie.exists("scoreboard")){
+        let scoreboard = Cookie.value("scoreboard").split("},");
+        scoreboard.forEach((item) => {
+            if(item !== ""){
+                item += "}";
+                console.log(item);
+                let testItem = JSON.parse(item);
+                scoreBoardArr.push(testItem);
+            }
+        })
+    }
+}
+
+initialiseLocalScoreboard();
 
 const addScoreToScoreBoard = (goodAnswers, badAnswers, maxSeconds, SecondsLeft, totalPokemon) => {
     if(scoreBoardArr.length === 10) scoreBoardArr.remove(9);
@@ -33,6 +50,18 @@ const addScoreToScoreBoard = (goodAnswers, badAnswers, maxSeconds, SecondsLeft, 
             "totalPokemon": totalPokemon
         }
     );
+    saveScoreBoard();
+}
+
+const saveScoreBoard = () => {
+    let item = "";
+    
+    scoreBoardArr.forEach((score) => {
+        item += JSON.stringify(score);
+        item += ",";
+    });
+
+    Cookie.create("scoreboard", item, 7, "Strict");
 }
 
 const genScoreBoardLastGames = () => {
@@ -47,7 +76,7 @@ const genScoreBoardLastGames = () => {
             <p>Foute antwoorden: ${item.badAnswers}</p>
             <p>Maximale tijd: ${item.maxSeconds}</p>
             <p>Seconden over: ${item.secondsLeft}</p>
-        </div>`;        
+        </div>`;
     });
 
     items += `</div>`;
@@ -76,6 +105,7 @@ ${header}
 `;
 
 app.innerHTML = home;
+app.innerHTML += genScoreBoardLastGames();
 
 const homeButton = () => {
     app.innerHTML = home;
@@ -119,9 +149,9 @@ const startGame = () => {
 
     app.innerHTML += `
     <div class="game">
-        pokemon: <input type="number" id="pokeAmount" value="${pokemonAmount}" max="${pokemonArray.length}"></input>
+        pokemon: <input type="number" id="pokeAmount" value="${pokemonAmount}" max="${pokemonArray.length}" min="0"></input>
         <br>
-        tijd in seconden: <input type="number" value=${PokemonSeconds} id="pokemonSeconds"></input>
+        tijd in seconden: <input type="number" min="0" value=${PokemonSeconds} id="pokemonSeconds"></input>
         <br>
         <button onclick="randomPoke();">Start</button>
     </div>`;
