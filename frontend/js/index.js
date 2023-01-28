@@ -15,9 +15,21 @@ const startupSetTheme = () => {
     }
 }
 
+const startupLayoutSet = () => {
+    if(!Cookie.exists("layout")) layoutTheme("horizontal");
+
+    const layoutVal = Cookie.value("layout");
+    const layoutThemes = ["horizontal", "vertical"];
+
+    if(!layoutThemes.includes(layoutVal)) layoutTheme("horizontal");
+
+    document.querySelector("html").classList.add(layoutVal);
+}
+
 
 window.addEventListener('DOMContentLoaded', () => {
     startupSetTheme();
+    startupLayoutSet();
 });
 
 const scoreBoardArr = [];
@@ -116,29 +128,43 @@ const showAllThemes = () => {
     let item = `
     ${header}
     <div>
+        <h3>color themes</h3>
         <button onclick="pickTheme('pink')">Pink</button>
         <button onclick="pickTheme('blue')">Blue</button>
         <button onclick="pickTheme('black')">Black</button>
+
+        <br>
+        <h3>layout themes</h3>
+        <button onclick="layoutTheme('horizontal')">horizontal</button>
+        <button onclick="layoutTheme('vertical')">vertical</button>
     </div>
     `;
     app.innerHTML = item;
 }
 
+const layoutTheme = (ThemeName) => {
+    if(ThemeName === 'horizontal' || ThemeName === 'vertical'){
+        Cookie.create("layout", ThemeName, 300, "Strict");
+        window.location.href = "/";
+    }
+}
+
 const pickTheme = (ThemeName) => {
     if(Themes.includes(ThemeName.toLowerCase())){
         Cookie.create("Theme", ThemeName, 300, "Strict");
-        window.location.href = "/"
+        window.location.href = "/";
     }
 }
 
 const showAllPokemon = () => { 
     app.innerHTML = header;
 
-    app.innerHTML += `<ul class="list">`;
+    let item = "";
     pokemonArray.forEach(function(pokemon,number){
-        app.innerHTML += `<li>${number + 1}: ${pokemon} <img src="./img/${pokemon}.png" alt="afbeelding voor ${pokemon}"></li>`;
+        item += `<li>${number + 1}: ${pokemon} <img src="./img/${pokemon}.png" alt="afbeelding voor ${pokemon}"></li>`;
     });
-    app.innerHTML += `</ul>`; 
+
+    app.innerHTML += `<ul class="list--all-pokemon">${item}</ul>`; 
 }
 
 var pokemonAmount = 0;
@@ -242,8 +268,11 @@ const game = () => {
 
     app.innerHTML = `<div class="timer" style="--max-time: ${PokemonSeconds}"><span> ${PokemonSeconds}</span></div>`;
 
-    app.innerHTML += names;
-    app.innerHTML += images;
+    app.innerHTML += `<div class="top-game-container">
+    ${names}
+    ${images} 
+    </div> 
+    `;
 
     if(curPokemonAmount === undefined){
         curPokemonAmount = 0;

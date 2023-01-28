@@ -81,7 +81,7 @@ const pokemonArray = [
     "slowbro",
     "magnemite",
     "magneton",
-    "farfetchd",
+    "farfetched",
     "doduo",
     "dodrio",
     "seel",

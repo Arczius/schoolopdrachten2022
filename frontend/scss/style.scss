@@ -9,23 +9,48 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 html{
     @include background_img();
 }
 
+.horizontal{
+    .list--all-pokemon{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 5px;
+
+        li {
+            display: flex;
+            flex-wrap: wrap-reverse;
+            gap: 4px;
+            img{
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+    }
+}
+
+.vertical{
+    .top-game-container{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+    }
+}
 
 .gameHolder{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
+
     .pokemonActualHolder{
         width: 100%;
         display: grid;
         justify-content: center;
-
-
     }
+
     li{     
         list-style: none;
         button{
