@@ -53,6 +53,19 @@ html.blue body {
 .timer {
   width: 100%;
   text-align: center;
+  position: relative;
+}
+.timer span {
+  position: relative;
+}
+.timer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: greenyellow;
+  width: calc(100% / var(--max-time) * var(--current-time-left));
 }
 
 .namesHolder {

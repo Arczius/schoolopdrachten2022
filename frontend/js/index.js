@@ -240,7 +240,7 @@ const game = () => {
     names += "</div>";
     images += "</div>";
 
-    app.innerHTML = `<div class="timer"></div>`;
+    app.innerHTML = `<div class="timer" style="--max-time: ${PokemonSeconds}"><span> ${PokemonSeconds}</span></div>`;
 
     app.innerHTML += names;
     app.innerHTML += images;
@@ -254,7 +254,10 @@ const game = () => {
 
     interval = setInterval(function() {
         if(document.querySelector(".timer") !== undefined || document.querySelector(".timer") !== null) {
-            document.querySelector(".timer").innerHTML = seconds; 
+            let timer = document.querySelector(".timer");
+            timer.innerHTML = `<span>${seconds}</span>`;
+
+            timer.style.setProperty("--current-time-left", seconds);
         }
         if(seconds === 0){
             gameDone(interval, seconds);
