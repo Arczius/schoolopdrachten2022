@@ -61,7 +61,7 @@ const saveScoreBoard = () => {
         item += ",";
     });
 
-    Cookie.create("scoreboard", item, 7, "Strict");
+    Cookie.create("scoreboard", item, 300, "Strict");
 }
 
 const genScoreBoardLastGames = () => {
@@ -126,7 +126,7 @@ const showAllThemes = () => {
 
 const pickTheme = (ThemeName) => {
     if(Themes.includes(ThemeName.toLowerCase())){
-        Cookie.create("Theme", ThemeName, 7, "Strict");
+        Cookie.create("Theme", ThemeName, 300, "Strict");
         window.location.href = "/"
     }
 }
