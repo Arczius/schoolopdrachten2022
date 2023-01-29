@@ -1,13 +1,20 @@
 "use strict";
 
+// initialising the base app
 const app = document.querySelector("#app");
 const Cookie = new ManageCookies();
 
+// the variable where we save the amount of items in a scoreboard
 const scoreBoardSaveAmount = 10;
 
+// a variable to set how long cookies stay on the web page
+const cookieTime = 300;
+
+// initialising the bad and good answers
 var fouteAntwoorden;
 var goedeAntwoorden;
 
+// a function to set the theme of the webpage
 const startupSetTheme = () => {
     if(Cookie.exists("Theme")){
         const ThemeVal = Cookie.value("Theme");
@@ -17,6 +24,7 @@ const startupSetTheme = () => {
     }
 }
 
+// a function to set the layout of the page
 const startupLayoutSet = () => {
     if(!Cookie.exists("layout")) layoutTheme("horizontal");
 
@@ -29,13 +37,16 @@ const startupLayoutSet = () => {
 }
 
 
+// when the base page is loaded it initializes the base layout and theme
 window.addEventListener('DOMContentLoaded', () => {
     startupSetTheme();
     startupLayoutSet();
 });
 
+// an array to save the scoreboard in
 const scoreBoardArr = [];
 
+// reading the local storage for an possibly already existing scoreboard
 const initialiseLocalScoreboard = () => {
     if(Cookie.exists("scoreboard")){
         let scoreboard = Cookie.value("scoreboard").split("},");
@@ -50,8 +61,10 @@ const initialiseLocalScoreboard = () => {
     }
 }
 
+// setting the scoreboard from the local storage
 initialiseLocalScoreboard();
 
+// a function to add game scores to the scoreboard variable
 const addScoreToScoreBoard = (goodAnswers, badAnswers, maxSeconds, SecondsLeft, totalPokemon) => {
     if(scoreBoardArr.length === scoreBoardSaveAmount) scoreBoardArr.remove(scoreBoardSaveAmount - 1);
 
@@ -69,6 +82,7 @@ const addScoreToScoreBoard = (goodAnswers, badAnswers, maxSeconds, SecondsLeft, 
     saveScoreBoard();
 }
 
+// a function to save the scoreboard earlier created scoreboard variable to local storage
 const saveScoreBoard = () => {
     let item = "";
     
@@ -77,9 +91,10 @@ const saveScoreBoard = () => {
         item += ",";
     });
 
-    Cookie.create("scoreboard", item, 300, "Strict");
+    Cookie.create("scoreboard", item, cookieTime, "Strict");
 }
 
+// a function for the sort buttons on the homepage
 const genScoreBoardHomeSorted = (sortby) => {
     switch(sortby){
         case "oldest":
@@ -94,6 +109,7 @@ const genScoreBoardHomeSorted = (sortby) => {
     }
 }
 
+// the base function for generating the frontend for all the scores
 const genScoreBoardLastGames = (sortby = null) => {
     let items = `<div class="scoreboard">
         <h4>sort by</h4>
@@ -132,6 +148,7 @@ const genScoreBoardLastGames = (sortby = null) => {
     return items;
 }
 
+// the base header variable
 const header = `
 <div class="header">
     <h1>Pokemon Quiz</h1>
@@ -141,6 +158,7 @@ const header = `
 </div>
 `;
 
+// the base homepage value
 const home = `
 ${header}
 <div class="homeContainer">
@@ -152,13 +170,13 @@ ${header}
 </div>
 `;
 
-app.innerHTML = home;
-app.innerHTML += genScoreBoardLastGames("newest");
 
+// the behaviour of the home button in the header, also called in other functions
 const homeButton = () => {
     document.location.href = "/";
 }
 
+// a function to show all the possible themes in the app / layout configurations
 const showAllThemes = () => {
     let item = `
     ${header}
@@ -177,16 +195,17 @@ const showAllThemes = () => {
     app.innerHTML = item;
 }
 
+// a function to save the layout theme to local storage
 const layoutTheme = (ThemeName) => {
     if(ThemeName === 'horizontal' || ThemeName === 'vertical'){
-        Cookie.create("layout", ThemeName, 300, "Strict");
+        Cookie.create("layout", ThemeName, cookieTime, "Strict");
         window.location.href = "/";
     }
 }
 
 const pickTheme = (ThemeName) => {
     if(Themes.includes(ThemeName.toLowerCase())){
-        Cookie.create("Theme", ThemeName, 300, "Strict");
+        Cookie.create("Theme", ThemeName, cookieTime, "Strict");
         window.location.href = "/";
     }
 }
@@ -267,9 +286,11 @@ const checkValue = (pokemonName) => {
     }
 }
 
+// the values for the game
 var interval;
 var seconds = 0;
 
+// a function to run the game itself
 const game = () => {
     seconds = parseInt(PokemonSeconds);
     let pokemonArr = [];
@@ -279,7 +300,6 @@ const game = () => {
         if(!pokemonArr.includes(pokemonName)) pokemonArr.push(pokemonName);
     }
     pokemonLeft = parseInt(pokemonAmount) - 1;
-    // let namesArr = pokemonArr.sort();
 
     let names = "<div class='namesHolder'>";
     let images = "<div class='imagesHolder'>";
@@ -301,7 +321,7 @@ const game = () => {
     names += "</div>";
     images += "</div>";
 
-    app.innerHTML = `<div class="timer" style="--max-time: ${PokemonSeconds}"><span> ${PokemonSeconds}</span></div>`;
+    app.innerHTML = `<div class="timer" style="--max-time: ${PokemonSeconds}; --current-time-left: ${PokemonSeconds};"><span> ${PokemonSeconds}</span></div>`;
 
     app.innerHTML += `<div class="top-game-container">
     ${names}
@@ -331,6 +351,7 @@ const game = () => {
     }, 1000);
 }
 
+// a function which is called when the game is done
 const gameDone = (interval, secondsLeft) => {
     clearInterval(interval);
     app.innerHTML = header;
@@ -349,3 +370,8 @@ const gameDone = (interval, secondsLeft) => {
     goedeAntwoorden = 0;
     fouteAntwoorden = 0;
 }
+
+
+// initialising the base app when the page loads
+app.innerHTML = home;
+app.innerHTML += genScoreBoardLastGames();
