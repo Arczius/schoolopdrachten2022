@@ -112,8 +112,8 @@ const genScoreBoardHomeSorted = (sortby) => {
 // the base function for generating the frontend for all the scores
 const genScoreBoardLastGames = (sortby = null) => {
     let items = `<div class="scoreboard">
-        <h4>sort by</h4>
         <div class="sortbyControls">
+            <h4>sort by</h4>
             <button onclick="genScoreBoardHomeSorted('oldest')">oldest</button>
             <button onclick="genScoreBoardHomeSorted('newest')">newest</button>
             <button onclick="genScoreBoardHomeSorted('none')">none</button>
