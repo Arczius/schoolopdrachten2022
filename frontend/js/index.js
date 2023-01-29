@@ -65,7 +65,7 @@ const initialiseLocalScoreboard = () => {
 initialiseLocalScoreboard();
 
 // a function to add game scores to the scoreboard variable
-const addScoreToScoreBoard = (goodAnswers, badAnswers, maxSeconds, SecondsLeft, totalPokemon) => {
+const addScoreToScoreBoard = ( goodAnswers, badAnswers, maxSeconds, SecondsLeft, totalPokemon ) => {
     if(scoreBoardArr.length === scoreBoardSaveAmount) scoreBoardArr.remove(scoreBoardSaveAmount - 1);
 
     scoreBoardArr.push(
@@ -86,7 +86,7 @@ const addScoreToScoreBoard = (goodAnswers, badAnswers, maxSeconds, SecondsLeft, 
 const saveScoreBoard = () => {
     let item = "";
     
-    scoreBoardArr.forEach((score) => {
+    scoreBoardArr.forEach(( score ) => {
         item += JSON.stringify(score);
         item += ",";
     });
@@ -95,7 +95,7 @@ const saveScoreBoard = () => {
 }
 
 // a function for the sort buttons on the homepage
-const genScoreBoardHomeSorted = (sortby) => {
+const genScoreBoardHomeSorted = ( sortby ) => {
     switch(sortby){
         case "oldest":
         case "newest":
@@ -110,7 +110,7 @@ const genScoreBoardHomeSorted = (sortby) => {
 }
 
 // the base function for generating the frontend for all the scores
-const genScoreBoardLastGames = (sortby = null) => {
+const genScoreBoardLastGames = ( sortby = null ) => {
     let items = `<div class="scoreboard">
         <div class="sortbyControls">
             <h4>sort by</h4>
@@ -123,15 +123,15 @@ const genScoreBoardLastGames = (sortby = null) => {
 
     let dates = scoreBoardArr;
     if(sortby === "oldest"){
-        dates.sort((a, b) => a.date - b.date);
+        dates.sort(( a, b ) => a.date - b.date);
     }
     else if(sortby === "newest"){
-        dates.sort((a, b) => a.date - b.date);
+        dates.sort(( a, b ) => a.date - b.date);
 
         dates.reverse();
     }
 
-    dates.forEach((item) => {
+    dates.forEach(( item ) => {
         items += `<div class="item">
             <p>Game: ${item.index}</p> 
             <p>Aantal pokemon om te raden: ${item.totalPokemon}</p>
@@ -196,14 +196,14 @@ const showAllThemes = () => {
 }
 
 // a function to save the layout theme to local storage
-const layoutTheme = (ThemeName) => {
+const layoutTheme = ( ThemeName ) => {
     if(ThemeName === 'horizontal' || ThemeName === 'vertical'){
         Cookie.create("layout", ThemeName, cookieTime, "Strict");
         window.location.href = "/";
     }
 }
 
-const pickTheme = (ThemeName) => {
+const pickTheme = ( ThemeName ) => {
     if(Themes.includes(ThemeName.toLowerCase())){
         Cookie.create("Theme", ThemeName, cookieTime, "Strict");
         window.location.href = "/";
@@ -214,7 +214,7 @@ const showAllPokemon = () => {
     app.innerHTML = header;
 
     let item = "";
-    pokemonArray.forEach(function(pokemon,number){
+    pokemonArray.forEach(( pokemon, number ) => {
         item += `<li>${number + 1}: ${pokemon} <img src="./img/${pokemon}.png" alt="afbeelding voor ${pokemon}"></li>`;
     });
 
@@ -259,7 +259,7 @@ var curPokemonAmount;
 var curPokemon;
 var pokemonLeft;
 
-const checkValue = (pokemonName) => {
+const checkValue = ( pokemonName ) => {
     if(pokemonLeft !== 0){
         let checkbox = document.querySelector(`#` + pokemonName);
         if(checkbox !== null && checkbox !== undefined){
@@ -304,14 +304,14 @@ const game = () => {
     let names = "<div class='namesHolder'>";
     let images = "<div class='imagesHolder'>";
 
-    pokemonArr.forEach((val) => {
+    pokemonArr.forEach(( val ) => {
         images += `<div class="${val}">
         <img src="./img/${val}.png" onclick="checkValue('${val}')">
         </div>`;
 
     });
 
-    pokemonArr.sort().forEach((val) => {
+    pokemonArr.sort().forEach(( val ) => {
         names += `<div class="${val}">
         <input class="hidden" id="${val}" type="checkbox" name=${val}></input>  
         <label for="${val}">${val}</label>
@@ -336,7 +336,7 @@ const game = () => {
     }
 
 
-    interval = setInterval(function() {
+    interval = setInterval(() => {
         if(document.querySelector(".timer") !== undefined || document.querySelector(".timer") !== null) {
             let timer = document.querySelector(".timer");
             timer.innerHTML = `<span>${seconds}</span>`;
@@ -352,7 +352,7 @@ const game = () => {
 }
 
 // a function which is called when the game is done
-const gameDone = (interval, secondsLeft) => {
+const gameDone = ( interval, secondsLeft ) => {
     clearInterval(interval);
     app.innerHTML = header;
     app.innerHTML += `
