@@ -1,5 +1,10 @@
 "use strict";
 
+/** 
+ * A class to manage Cookies
+ * @version 0.2
+ * @author Arczius
+ */
 class ManageCookies{
 
   /**
@@ -46,6 +51,6 @@ class ManageCookies{
    * @param {string} name - the name of the cookie you want to delete
    */
   delete(name){
-    document.cookie = `${name}=null;expires=1;path=/;SameSite=Strict`;
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;SameSite=Strict`;
   }
 }
