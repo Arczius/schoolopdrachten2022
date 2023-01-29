@@ -3,6 +3,8 @@
 const app = document.querySelector("#app");
 const Cookie = new ManageCookies();
 
+const scoreBoardSaveAmount = 10;
+
 var fouteAntwoorden;
 var goedeAntwoorden;
 
@@ -51,15 +53,17 @@ const initialiseLocalScoreboard = () => {
 initialiseLocalScoreboard();
 
 const addScoreToScoreBoard = (goodAnswers, badAnswers, maxSeconds, SecondsLeft, totalPokemon) => {
-    if(scoreBoardArr.length === 10) scoreBoardArr.remove(9);
+    if(scoreBoardArr.length === scoreBoardSaveAmount) scoreBoardArr.remove(scoreBoardSaveAmount - 1);
 
     scoreBoardArr.push(
         {
+            "index": scoreBoardArr.length + 1,
             "goodAnswers": goodAnswers, 
             "badAnswers": badAnswers,
             "maxSeconds": maxSeconds,
             "secondsLeft": SecondsLeft,
-            "totalPokemon": totalPokemon
+            "totalPokemon": totalPokemon,
+            "date": new Date(Date.now())
         }
     );
     saveScoreBoard();
@@ -76,21 +80,53 @@ const saveScoreBoard = () => {
     Cookie.create("scoreboard", item, 300, "Strict");
 }
 
-const genScoreBoardLastGames = () => {
+const genScoreBoardHomeSorted = (sortby) => {
+    switch(sortby){
+        case "oldest":
+        case "newest":
+        case "none":
+                app.innerHTML = home;
+                app.innerHTML += genScoreBoardLastGames(sortby);
+            break;
+        
+        default:
+            homeButton();
+    }
+}
+
+const genScoreBoardLastGames = (sortby = null) => {
     let items = `<div class="scoreboard">
+        <h4>sort by</h4>
+        <div class="sortbyControls">
+            <button onclick="genScoreBoardHomeSorted('oldest')">oldest</button>
+            <button onclick="genScoreBoardHomeSorted('newest')">newest</button>
+            <button onclick="genScoreBoardHomeSorted('none')">none</button>
+        </div>
         <h3>Scorebord</h3>   
     `;
-    scoreBoardArr.forEach((item, index) => {
+
+    let dates = scoreBoardArr;
+    if(sortby === "oldest"){
+        dates.sort((a, b) => a.date - b.date);
+    }
+    else if(sortby === "newest"){
+        dates.sort((a, b) => a.date - b.date);
+
+        dates.reverse();
+    }
+
+    dates.forEach((item) => {
         items += `<div class="item">
-            <p>Game: ${index + 1}</p> 
+            <p>Game: ${item.index}</p> 
             <p>Aantal pokemon om te raden: ${item.totalPokemon}</p>
             <p>Goede antwoorden: ${item.goodAnswers}</p>
             <p>Foute antwoorden: ${item.badAnswers}</p>
             <p>Maximale tijd: ${item.maxSeconds}</p>
             <p>Seconden over: ${item.secondsLeft}</p>
+            <p>Datum: ${item.date}</p>
         </div>`;
     });
-
+   
     items += `</div>`;
 
     return items;
@@ -117,11 +153,10 @@ ${header}
 `;
 
 app.innerHTML = home;
-app.innerHTML += genScoreBoardLastGames();
+app.innerHTML += genScoreBoardLastGames("newest");
 
 const homeButton = () => {
-    app.innerHTML = home;
-    app.innerHTML += genScoreBoardLastGames();
+    document.location.href = "/";
 }
 
 const showAllThemes = () => {
