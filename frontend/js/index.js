@@ -97,13 +97,11 @@ const saveScoreBoard = () => {
 // a function for the sort buttons on the homepage
 const genScoreBoardHomeSorted = ( sortby ) => {
     switch(sortby){
-        case "oldest":
         case "newest":
-        case "none":
                 app.innerHTML = home;
                 app.innerHTML += genScoreBoardLastGames(sortby);
             break;
-        
+
         default:
             homeButton();
     }
@@ -113,19 +111,15 @@ const genScoreBoardHomeSorted = ( sortby ) => {
 const genScoreBoardLastGames = ( sortby = null ) => {
     let items = `<div class="scoreboard">
         <div class="sortbyControls">
-            <h4>sort by</h4>
-            <button onclick="genScoreBoardHomeSorted('oldest')">oldest</button>
+            <h4>Sort by</h4>
+            <button onclick="genScoreBoardHomeSorted('oldest')">oudste</button>
             <button onclick="genScoreBoardHomeSorted('newest')">newest</button>
-            <button onclick="genScoreBoardHomeSorted('none')">none</button>
         </div>
         <h3>Scorebord</h3>   
     `;
 
     let dates = scoreBoardArr;
-    if(sortby === "oldest"){
-        dates.sort(( a, b ) => a.date - b.date);
-    }
-    else if(sortby === "newest"){
+    if(sortby === "newest"){
         dates.sort(( a, b ) => a.date - b.date);
 
         dates.reverse();

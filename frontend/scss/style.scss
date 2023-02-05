@@ -14,6 +14,12 @@ html{
     @include background_img();
 }
 
+.sortbyControls{
+    button {
+        font-size: 1.3rem;
+    }
+}
+
 .horizontal{
     .list--all-pokemon{
         display: grid;
